@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+// import alanBtn from "@alan-ai/alan-sdk-web";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import NewsCards from "./components/NewsCards/NewsCards";
+
+const App = () => {
+    const [newArticles,setNewArticles] = useState([]);
+
+    // executed only once when the component mounts
+    useEffect(() => {
+        alanBtn({
+            key: process.env.REACT_APP_ALAN_SDK_KEY,
+            onCommand: ({ command, articles }) => {
+                if(command === 'newsFromSource') {
+                    setNewArticles(articles);
+                }
+            }
+        });
+    },[]);
+
+    return (
+        <div>
+            <h1 style={{ marginBottom: "20px" }}>Alan AI News Reader</h1>
+            <NewsCards articles={newArticles} />
+        </div>
+    );
+};
 
 export default App;
