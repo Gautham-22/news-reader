@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, createRef } from "react";
 import { Grow, Grid, Typography } from "@material-ui/core";
 
 import useStyles from "./styles";
 import NewsCard from "../NewsCard/NewsCard";
 
-const NewsCards = ({ articles }) => {
+const NewsCards = ({ articles, currentArticle }) => {
     const classes = useStyles();
     const infoCards = [
         { color: '#00838f', title: 'Latest News', text: 'Give me the latest news' },
@@ -12,6 +12,12 @@ const NewsCards = ({ articles }) => {
         { color: '#4527a0', title: 'News by Terms', info: 'Bitcoin, PlayStation 5, Smartphones, Donald Trump...', text: 'What\'s up with PlayStation 5' },
         { color: '#283593', title: 'News by Sources', info: 'CNN, Wired, BBC News, Time, IGN, Buzzfeed, ABC News...', text: 'Give me the news from Wired' },
     ];
+    const [elementRefs,setElementRefs] = useState([]);
+
+    useEffect(() => {
+        let newRefs = Array(articles.length).fill().map((_,i) => elementRefs[i] || createRef());
+        setElementRefs(newRefs);
+    },[articles]);
 
     if(!articles.length) {
         return (
@@ -45,8 +51,8 @@ const NewsCards = ({ articles }) => {
         <Grow in>
             <Grid className={classes.container} container alignItems="stretch" spacing={3}>
                 {articles.map((article,i) => (
-                    <Grid item key={i} xs={12} sm={6} md={4} lg={3} style={{display: "flex"}}>
-                        <NewsCard article={article} i={i}/>
+                    <Grid item key={i} xs={12} sm={6} md={4} lg={3} style={{display: "flex"}} ref={elementRefs[i]}>
+                        <NewsCard article={article} i={i} currentArticle={currentArticle} refProp={elementRefs[i]} />
                     </Grid>
                 ))}
             </Grid>

@@ -1,14 +1,19 @@
 import React from "react";
 import { Card, CardActionArea, CardMedia, CardActions, CardContent, Typography, Button } from "@material-ui/core";
+import classeNames from "classnames";
 
 import useStyles from "./styles";
 
-const NewsCard = ({ article: { title, source, description, url, urlToImage, publishedAt }, i }) => {
+const NewsCard = ({ article: { title, source, description, url, urlToImage, publishedAt }, i, currentArticle, refProp }) => {
     let sampleImage = "https://s.france24.com/media/display/d1676b6c-0770-11e9-8595-005056a964fe/w:1280/p:16x9/news_1920x1080.png";
     const classes = useStyles();
     
+    if(i === currentArticle) {
+        refProp?.current?.scrollIntoView({ behaviour: "smooth", block: "start" });
+    }
+
     return (
-        <Card className={classes.card}>
+        <Card className={classeNames(classes.card,currentArticle === i ? classes.activeCard : null)}>
             <CardActionArea href={url} target="_blank">
                 <CardMedia 
                     image={urlToImage || sampleImage}
