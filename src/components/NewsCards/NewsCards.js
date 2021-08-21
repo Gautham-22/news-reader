@@ -22,13 +22,13 @@ const NewsCards = ({ articles }) => {
                             <div className={classes.infoCard} style={{ backgroundColor: infoCard.color }}>
                                 <Typography variant="h5" component="h5" className={classes.title}>{infoCard.title}</Typography>
                                 {infoCard.info && (
-                                    <Typography variant="h6" component="h6">
+                                    <Typography variant="h6" component="h6" className={classes.info}>
                                         <strong>{infoCard.title.split(' ')[2]}: </strong>
                                         <br />
                                         {infoCard.info}
                                     </Typography>
                                 )}
-                                <Typography variant="h6" component="h6">
+                                <Typography variant="h6" component="h6" className={classes.text}>
                                     Try saying:
                                     <br />    
                                     <i>{infoCard.text}</i>
