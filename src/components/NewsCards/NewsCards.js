@@ -48,15 +48,18 @@ const NewsCards = ({ articles, currentArticle }) => {
     }
 
     return (
-        <Grow in>
-            <Grid className={classes.container} container alignItems="stretch" spacing={3}>
-                {articles.map((article,i) => (
-                    <Grid item key={i} xs={12} sm={6} md={4} lg={3} style={{display: "flex"}} ref={elementRefs[i]}>
-                        <NewsCard article={article} i={i} currentArticle={currentArticle} refProp={elementRefs[i]} />
-                    </Grid>
-                ))}
-            </Grid>
-        </Grow>
+        <>
+            <Typography variant="body2" className={classes.commands}><b>Try saying:</b> go back | open article number 1</Typography>
+            <Grow in>
+                <Grid className={classes.container} container alignItems="stretch" spacing={3}>
+                    {articles.map((article,i) => (
+                        <Grid item key={i} xs={12} sm={6} md={4} lg={3} style={{display: "flex"}} ref={elementRefs[i]}>
+                            <NewsCard article={article} i={i} currentArticle={currentArticle} refProp={elementRefs[i]} />
+                        </Grid>
+                    ))}
+                </Grid>
+            </Grow>
+        </>
     );
 };
 

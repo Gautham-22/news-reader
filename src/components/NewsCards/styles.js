@@ -29,5 +29,10 @@ export default makeStyles({
     },
     text: {
         marginTop: "5px"
+    },
+    commands: {
+        textAlign: "center",
+        fontSize: "0.95rem",
+        opacity: "0.7"
     }
 });

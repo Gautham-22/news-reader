@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import alanBtn from "@alan-ai/alan-sdk-web";
+import wordsToNumbers from 'words-to-numbers';
 
 import NewsCards from "./components/NewsCards/NewsCards";
 import useStyles from "./styles.js";
 
+let alanBtnInstance;
 const App = () => {
     const classes = useStyles();
     const [newArticles,setNewArticles] = useState([]);
@@ -11,14 +13,22 @@ const App = () => {
 
     // executed only once when the component mounts
     useEffect(() => {
-        alanBtn({
+        alanBtnInstance = alanBtn({
             key: process.env.REACT_APP_ALAN_SDK_KEY,
-            onCommand: ({ command, articles }) => {
+            onCommand: ({ command, articles, number }) => {
                 if(command === 'newHeadlines') {
                     setCurrentArticle(-1);
                     setNewArticles(articles);
                 } else if(command === 'highlight') {
                     setCurrentArticle((prev) => prev + 1);
+                } else if(command === 'open') {
+                    let num = number.length > 2 ? wordsToNumbers(number,{fuzzy: true}) : number;
+                    if(num <= articles.length && articles[num - 1]) {
+                        window.open(articles[num - 1].url,"_blank");
+                        play('Opening...');
+                    } else {
+                        play('Sorry, there is no article on that number');
+                    }
                 }
             }
         });
@@ -33,5 +43,9 @@ const App = () => {
         </div>
     );
 };
+
+function play(text) {
+    alanBtnInstance.playText(text);
+}
 
 export default App;
